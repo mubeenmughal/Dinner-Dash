@@ -1,0 +1,34 @@
+
+<div style="margin-bottom:20px;" class="row">
+  <%if @categories%>
+    <div class="btn-group btn-group-toggle  button-margin-left" data-toggle="buttons">
+      <%=link_to "All",resturant_items_path,class: "btn btn-secondary active "%>
+    </div>
+    <%@categories.each do |category|%>
+      <div class="btn-group btn-group-toggle  button-margin-left" data-toggle="buttons">
+        <%=link_to category.name,resturant_items_path(:cate=> category.id),class: "btn btn-secondary active "%>
+      </div>
+    <%end%>
+  <%end%>
+  <div class="search_form">
+    <%= form_tag resturant_items_path,:method=> :get, class:"form-inline form-margin" do %>
+      <%= text_field_tag :search, params[:search],class:"form-control mr-sm-2" %>
+      <%= submit_tag "Search", :name=> nil,class:"btn btn-outline-success my-2 my-sm-0"%>
+    <%end%>
+  </div>
+</div>
+<%if current_user%>
+  <%if admin?%>
+    <div class="col-md-12 text-center">
+      <%= link_to "Add Product" , new_resturant_item_path,class: "btn btn-primary btn-lg button-margin" %>
+    </div>
+  <%end%>
+<%end%>
+<% if !user_signed_in? %>
+  <div class="col-md-12 text-center display-no-card">
+    <%= link_to "Add Product" , new_resturant_item_path,class: "btn btn-primary btn-lg button-margin" %>
+  </div>
+<%end%>
+<div class="items-container">
+  <%= render partial: 'shared/items', locals: { resturant: @resturant } %>
+</div>
